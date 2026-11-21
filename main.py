@@ -544,7 +544,11 @@ def build_front_page():
 
 
 def main():
-    out_dir = os.path.dirname(os.path.abspath(__file__))
+    # The grader runs the repo read-only at /bot and gives a writable
+    # /output (MAKEFUN_OUTPUT_DIR). Write there when it is set, so the
+    # graded run can complete; locally, fall back to this file's dir.
+    out_dir = os.environ.get("MAKEFUN_OUTPUT_DIR") or os.path.dirname(os.path.abspath(__file__))
+    os.makedirs(out_dir, exist_ok=True)
     out_path = os.path.join(out_dir, "entry.png")
     cv = build_front_page()
     with open(out_path, "wb") as f:
